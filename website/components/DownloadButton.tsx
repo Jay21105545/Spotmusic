@@ -19,7 +19,7 @@ import {
   FaAndroid,
 } from "react-icons/fa";
 
-const baseURL = "https://github.com/KRTirtho/spotube/releases/latest/download/";
+const baseURL = "https://github.com/Jay21105545/Spotmusic/releases/tag/Stable";
 
 const DownloadLinks = Object.freeze({
   [Platform.linux]: [
