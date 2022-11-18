@@ -1,0 +1,139 @@
+name: Spotube Nightly
+on:
+  push:
+    branches:
+      - build
+  workflow_dispatch:
+
+jobs:
+  build_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          cache: true
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y tar clang cmake ninja-build pkg-config libgtk-3-dev make python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+      - run: |
+          wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.0.0-beta.1/appimage-builder-1.0.0-677acbd-x86_64.AppImage
+          chmod +x appimage-builder-x86_64.AppImage
+          mv appimage-builder-x86_64.AppImage /usr/local/bin/appimage-builder
+
+      - run: |
+          curl -sS https://webi.sh/yq | sh
+          yq -i '.version |= sub("\+\d+", "-nightly-")' pubspec.yaml
+          yq -i '.version += strenv(GITHUB_RUN_NUMBER)' pubspec.yaml
+          flutter config --enable-linux-desktop
+          flutter pub get
+          dart bin/create-secrets.dart '${{ secrets.LYRICS_SECRET }}' '${{ secrets.SPOTIFY_SECRET }}'
+          dart pub global activate flutter_distributor
+          flutter_distributor package --platform=linux --targets=deb,appimage --skip-clean
+          make tar
+      - run: |
+          mv build/Spotube-linux-x86_64.tar.xz dist/
+          mv dist/**/spotube-*-linux.deb dist/Spotube-linux-x86_64.deb
+          mv dist/**/spotube-*-linux.AppImage dist/Spotube-linux-x86_64.AppImage
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Spotube-Linux-Bundle
+          path: dist/
+      - name: Setup upterm session
+        if: ${{ failure() }}
+        uses: lhotari/action-upterm@v1
+        with:
+          limit-access-to-actor: true
+
+  build_android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          cache: true
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev make python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+
+      - run: |
+          curl -sS https://webi.sh/yq | sh
+          yq -i '.version |= sub("\+\d+", "-nightly-")' pubspec.yaml
+          yq -i '.version += strenv(GITHUB_RUN_NUMBER)' pubspec.yaml
+          flutter pub get
+          dart bin/create-secrets.dart '${{ secrets.LYRICS_SECRET }}' '${{ secrets.SPOTIFY_SECRET }}'
+          echo '${{ secrets.KEYSTORE }}' | base64 --decode > android/app/upload-keystore.jks
+          echo '${{ secrets.KEY_PROPERTIES }}' > android/key.properties
+          flutter build apk
+          make apk
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Spotube-Android-Bundle
+          path: |
+            build/Spotube-android-all-arch.apk
+      - name: Setup upterm session
+        if: ${{ failure() }}
+        uses: lhotari/action-upterm@v1
+        with:
+          limit-access-to-actor: true
+
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Build Windows Executable
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          cache: true
+      - run: |
+          choco install sed make yq -y
+          yq -i '.version |= sub("\+\d+", "-nightly-")' pubspec.yaml
+          yq -i '.version += strenv(GITHUB_RUN_NUMBER)' pubspec.yaml
+          sed -i "s/%{{SPOTUBE_VERSION}}%/${{ env.GITHUB_RUN_NUMBER }}/" windows/runner/Runner.rc
+          flutter config --enable-windows-desktop
+          flutter pub get
+          dart bin/create-secrets.dart '${{ secrets.LYRICS_SECRET }}' '${{ secrets.SPOTIFY_SECRET }}'
+          dart pub global activate flutter_distributor
+          make innoinstall
+          flutter_distributor package --platform=windows --targets=exe --skip-clean
+
+      # Create Chocolatey Package
+      # setting the sha256 hash for new bundle
+      - run: mv dist/**/spotube-*-windows-setup.exe dist/Spotube-windows-x86_64-setup.exe
+
+      # Upload artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Spotube-Windows-Bundle
+          path: dist/
+
+  build_macos:
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          cache: true
+      - run: brew install yq
+      - run: yq -i '.version |= sub("\+\d+", "-nightly-")' pubspec.yaml
+      - run: yq -i '.version += strenv(GITHUB_RUN_NUMBER)' pubspec.yaml
+      - run: flutter config --enable-macos-desktop
+      - run: flutter pub get
+      - run: dart bin/create-secrets.dart '${{ secrets.LYRICS_SECRET }}' '${{ secrets.SPOTIFY_SECRET }}'
+      - run: flutter build macos
+      - run: du -sh build/macos/Build/Products/Release/spotube.app
+      - run: npm install -g appdmg
+      - run: appdmg appdmg.json build/Spotube-macos-x86_64.dmg
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Spotube-Macos-Bundle
+          path: |
+            build/Spotube-macos-x86_64.dmg
+      - name: Setup upterm session
+        if: ${{ failure() }}
+        uses: lhotari/action-upterm@v1
+        with:
+          limit-access-to-actor: true
