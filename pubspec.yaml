@@ -32,7 +32,7 @@ dependencies:
   permission_handler: ^10.0.2
   marquee: ^2.2.3
   scroll_to_index: ^3.0.1
-  package_info_plus: ^1.4.3
+  package_info_plus: ^3.0.2
   version: ^3.0.2
   audio_service: ^0.18.7
   skeleton_text: ^3.0.0
