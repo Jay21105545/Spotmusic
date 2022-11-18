@@ -57,7 +57,7 @@ const Footer = () => {
           colorScheme="gray"
           as={Link}
           aria-label="Github Link"
-          href="https://github.com/KRTirtho/spotube"
+          href="https://linktr.ee/Jay_barot"
           target="_blank"
           icon={<FaGithub />}
           variant="link"
@@ -66,7 +66,7 @@ const Footer = () => {
           colorScheme="gray"
           as={Link}
           aria-label="Twitter Link"
-          href="https://twitter.com/@KrTirtho"
+          href="https://linktr.ee/Jay_barot"
           target="_blank"
           icon={<FiTwitter />}
           variant="link"
@@ -75,7 +75,7 @@ const Footer = () => {
           colorScheme="gray"
           as={Link}
           aria-label="Reddit Link"
-          href="https://reddit.com/r/FlutterDev/search/?q=spotube&restrict_sr=1&sr_nsfw="
+          href="https://linktr.ee/Jay_barot"
           target="_blank"
           icon={<FaRedditAlien />}
           variant="link"

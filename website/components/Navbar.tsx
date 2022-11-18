@@ -87,7 +87,7 @@ const Navbar = () => {
               </NavLink>
               <Button
                 as={Link}
-                href="https://github.com/KRTirtho/spotube"
+                href="https://linktr.ee/Jay_barot"
                 bgColor="black"
                 color="white"
                 target="_blank"
@@ -191,7 +191,7 @@ const Navbar = () => {
                 </NavLink>
                 <Button
                   as={Link}
-                  href="https://github.com/KRTirtho/spotube"
+                  href="https://linktr.ee/Jay_barot"
                   bgColor="black"
                   color="white"
                   target="_blank"
