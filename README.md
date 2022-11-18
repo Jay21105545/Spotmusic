@@ -1,7 +1,7 @@
 ![Spotube](assets/spotube_banner.png)
 
 <p align="center">
-  <a href="https://spotube.netlify.app/">spotube.netlify.app</a>
+  <a href="https://spotmus.vercel.app/">spotube.vercel.app</a>
 </p>
 
 <p align="center">
@@ -17,10 +17,10 @@
   <a href="https://github.com/KRTirtho">
     <img alt="Maintainer" src="https://img.shields.io/badge/Maintainer-KRTirtho-%2316ba58?style=flat-square"/>
   </a>
-  <a href="https://opencollective.com/spotube">
+  <a href="https://bit.ly/3MF52if">
     <img alt="Open Collective backers and sponsors" src="https://img.shields.io/opencollective/all/spotube?color=%2316ba58&style=flat-square"/>
   </a>
-  <a href="https://discord.gg/uJ94vxB6vg">
+  <a href="https://linktr.ee/Jay_barot">
     <img alt="Discord" src="https://img.shields.io/discord/1012234096237350943?color=%2316ba58&label=Discord%20Server&logoColor=%2316ba58&style=flat-square">
   </a>
 </p>
@@ -37,7 +37,7 @@ Spotube is a [Flutter](https://flutter.dev) based lightweight spotify client. It
 ![Application Mobile Screenshot](assets/mobile-screenshots/mobile-combined.jpg)
 
 <p align="center">
-  <a href="https://discord.gg/uJ94vxB6vg">
+  <a href="https://linktr.ee/Jay_barot">
     <img src="https://discord.com/api/guilds/1012234096237350943/widget.png?style=banner2">
   </a>
 </p>
@@ -60,9 +60,9 @@ Following are the features that currently spotube offers:
 
 # Support this project
 
-<a href="https://patreon.com/krtirtho"><img src="https://user-images.githubusercontent.com/61944859/180249027-678b01b8-c336-451e-b147-6d84a5b9d0e7.png" width="250"/></a>
-[!["Donate to out Collective"](https://opencollective.com/webpack/donate/button.png?color=blue)](https://opencollective.com/spotube)
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/krtirtho)
+<a href="https://bit.ly/3MF52if"><img src="https://user-images.githubusercontent.com/61944859/180249027-678b01b8-c336-451e-b147-6d84a5b9d0e7.png" width="250"/></a>
+[!["Donate to out Collective"](https://opencollective.com/webpack/donate/button.png?color=blue)](https://bit.ly/3MF52if)
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://bit.ly/3MF52if)
 
 # Installation
 
@@ -107,13 +107,8 @@ You can find the details [here](CONTRIBUTION.md#your-first-code-contribution)
 
 But why? You can learn about it [here](https://dev.to/krtirtho/choosing-open-source-license-wisely-1m3p)
 
-# Financial Contributors
-## Backers
-![Backers](https://opencollective.com/spotube/backer.svg?button=false)
-![Donors](https://opencollective.com/spotube/tiers/donor.svg?button=false)
 
-## Sponsors
-![Donors](https://opencollective.com/spotube/tiers/sponsor.svg)
+
 
 # Library/Plugin/Framework Credits
 
